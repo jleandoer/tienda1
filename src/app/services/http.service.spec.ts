@@ -21,6 +21,7 @@ describe('HttpService', () => {
     httpMock.verify(); 
   });
 
+  
   it('debería obtener todos los productos', () => {
     const mockProducts = [{ id: 1, title: 'Producto 1' }];
     
