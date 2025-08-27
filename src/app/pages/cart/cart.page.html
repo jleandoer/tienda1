@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Carrito</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of cart; let i = index">
+      <ion-thumbnail slot="start">
+        <img [src]="item.image" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ item.title }}</h2>
+        <p>{{ item.price | currency }}</p>
+      </ion-label>
+      <ion-button fill="clear" color="danger" (click)="removeItem(i)">❌</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-title>Total: {{ total | currency }}</ion-title>
+      <ion-button expand="full" (click)="goToSummary()">Pagar</ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>

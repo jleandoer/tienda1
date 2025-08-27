@@ -1,0 +1,31 @@
+img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  ion-segment {
+    display: flex;
+    flex-wrap: wrap; // Permite que los botones pasen a la siguiente línea si no caben
+    justify-content: center; // Centra los botones
+    gap: 8px; // Espacio entre botones
+    padding: 8px;
+  }
+  
+  ion-segment-button {
+    flex: 1 1 auto; // Permite que los botones se ajusten automáticamente
+    min-width: 100px; // Evita que sean demasiado pequeños
+    max-width: 150px; // Evita que sean demasiado grandes
+    font-size: 14px; // Ajusta el tamaño del texto
+    text-align: center;
+    padding: 6px 10px;
+    white-space: nowrap; // Evita que el texto se corte en varias líneas
+  }
+  
+  @media (max-width: 480px) {
+    ion-segment-button {
+      font-size: 12px;
+      min-width: 80px; // Reduce el tamaño en móviles pequeños
+    }
+  }
+  
