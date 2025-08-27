@@ -48,8 +48,8 @@ LocalStorage para almacenar productos en el carrito
 
 Clona el repositorio:
 
-git clone https://github.com/jleandoer/tiendaapi
-cd tiendaapi
+git clone https://github.com/jleandoer/tienda1
+cd tienda1
 
 Instala las dependencias:
 
