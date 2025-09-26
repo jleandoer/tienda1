@@ -1,21 +1,108 @@
-name: Run Unit Tests
-on: [push]
+name: Flujo CI
+
+on: [push, pull_request]
 
 jobs:
-  test:
+  analisis:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: npm install
+      - name: Instalar dependencias
+        run: |
+          echo "Instalando dependencias..."
+          npm install
 
-      - name: Run Jest tests
-        run: npm test
+      - name: Ejecutar ESLint
+        run: |
+          echo "Ejecutando análisis de código..."
+          npm run lint
+
+  pruebas:
+    runs-on: ubuntu-latest
+    needs: analisis
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias
+        run: |
+          echo "Instalando dependencias..."
+          npm install
+
+      - name: Ejecutar pruebas con cobertura
+        run: |
+          echo "Ejecutando pruebas unitarias con cobertura..."
+          npm run test -- --coverage --watchAll=false
+
+      - name: Verificar cobertura mínima (≥ 90%)
+        run: |
+          COBERTURA=$(jq '.total.lines.pct' coverage/coverage-summary.json)
+          echo "Cobertura actual: $COBERTURA%"
+          if (( $(echo "$COBERTURA < 90" | bc -l) )); then
+            echo "❌ La cobertura está por debajo del 90%"
+            exit 1
+          fi
+
+      - name: Subir reporte de cobertura
+        if: github.actor != 'nektos/act'
+        uses: actions/upload-artifact@v3
+        with:
+          name: reporte-cobertura
+          path: coverage
+
+  construccion:
+    runs-on: ubuntu-latest
+    needs: pruebas
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias
+        run: |
+          echo "Instalando dependencias..."
+          npm install
+
+      - name: Instalar Angular CLI
+        run: npm install -g @angular/cli
+
+      - name: Construir aplicación
+        run: |
+          echo "Construyendo la aplicación..."
+          npm run build
+
+      - name: Subir artefacto de la aplicación
+        uses: actions/upload-artifact@v3
+        with:
+          name: aplicacion-build
+          path: dist/
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: construccion
+    if: success()
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Construir imagen Docker
+        run: |
+          echo "Construyendo la imagen Docker..."
+          docker build -t mi-app:latest .
+
+      - name: Ejecutar contenedor Docker
+        run: |
+          echo "Ejecutando contenedor Docker..."
+          docker run --rm -d -p 3000:3000 mi-app:latest
