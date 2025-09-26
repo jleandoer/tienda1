@@ -4,6 +4,7 @@ const { compilerOptions } = require('./tsconfig.spec.json');
 
 module.exports = {
   preset: 'jest-preset-angular',
+  coverageDirectory: 'coverage',
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   testEnvironment: 'jsdom',
   moduleFileExtensions: ['ts', 'html', 'js', 'json'],
