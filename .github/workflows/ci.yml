@@ -55,7 +55,7 @@ jobs:
 
       - name: Subir reporte de cobertura
         if: github.actor != 'nektos/act'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: reporte-cobertura
           path: coverage
@@ -85,10 +85,11 @@ jobs:
           npm run build
 
       - name: Subir artefacto de la aplicación
-        uses: actions/upload-artifact@v3
+        if: github.actor != 'nektos/act'
+        uses: actions/upload-artifact@v4
         with:
           name: aplicacion-build
-          path: dist/
+          path: www/
 
   docker:
     runs-on: ubuntu-latest
