@@ -32,7 +32,7 @@ Notificaciones con Ionic Toast al agregar o eliminar productos y al finalizar la
 
 Diseño responsivo optimizado para dispositivos móviles.
 
-# Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 Ionic Framework (UI y funcionalidades móviles)
 
@@ -40,11 +40,11 @@ Angular 17
 
 RxJS (manejo de estados y datos asíncronos)
 
-API Fake Store (https://fakestoreapi.com/) para obtener productos
+API Fake Store [fakestoreapi.com](https://fakestoreapi.com/) para obtener productos 
 
 LocalStorage para almacenar productos en el carrito
 
-# Instalación y Ejecución
+## Instalación y Ejecución
 
 Clona el repositorio:
 
@@ -58,7 +58,7 @@ npm install
 Ejecuta la app en el navegador:
 ionic serve
 
-# API Fake Store
+## API Fake Store
 
 Esta aplicación consume los datos de la API Fake Store. Algunos endpoints utilizados:
 
